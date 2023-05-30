@@ -27,8 +27,8 @@ app.get("/api/transactions", async (req, res) => {
 
 }) 
 
-if(process.env.API_PORT){
+// if(process.env.API_PORT){
     app.listen(process.env.API_PORT);
-}
+// }
 
 module.exports = app;
