@@ -1,5 +1,5 @@
 // import logo from './logo.svg';
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import "./App.css";
 import Home from "./components/Home";
 import Login from "./components/Login";
@@ -7,18 +7,19 @@ import Login from "./components/Login";
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
 
-  const setTokenValue = (token) => {
+  const setTokenValue = useCallback((token) => {
     setToken(token);
-  };
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     setToken("");
-  };
+    localStorage.removeItem("token");
+  }, [localStorage]);
 
   return (
     <>
       <nav>
-        <h1>Money Tracker</h1>{" "}
+        <h1>Money Tracker</h1>
       </nav>
       {token ? (
         <Home logout={logout} />
