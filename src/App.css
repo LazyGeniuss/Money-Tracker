@@ -28,15 +28,16 @@ form{
 
 form input{
   width: 100%;
+  margin: 2px 0;
   background-color: transparent;
   color: #ddd;
   border: solid 2px #30313d;
-  padding: 2px 5px;
-  border-radius: 5px;
+  padding: 10px 8px;
+  border-radius: 12px;
 }
 
 form input[type = "datetime-local"]{
-  color: #777;
+  color: #AAA;
 }
 
 form div.basics{
@@ -47,10 +48,10 @@ form div.basics{
 
 form button{
   width: 100%;
-  margin-top: 5px;
+  margin:5px 0;
   border: 0;
-  border-radius: 5px;
-  padding: 5px;
+  border-radius: 18px;
+  padding: 8px;
   background-color: #ddd;
 }
 
@@ -93,4 +94,13 @@ div.price.red{
 div.transaction div.datetime{
   font-size: 0.7rem;
   color: #888;
+}
+
+p {
+  text-align: center;
+}
+
+a{
+  color: rgb(128, 0, 255);
+  text-decoration: underline;
 }
