@@ -1,8 +1,16 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, FormEvent } from "react";
 import "../App.css";
 import { login, signUp } from "../axios/api";
 
-const Login = ({ setTokenValue }) => {
+interface Iprops {
+  setTokenValue: (token: string) => void;
+}
+
+interface Error {
+  response?: { data?: { message?: string } };
+}
+
+const Login: React.FC<Iprops> = ({ setTokenValue }) => {
   const [type, setType] = useState("Login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,14 +21,14 @@ const Login = ({ setTokenValue }) => {
   }, [type]);
 
   const onSubmit = useCallback(
-    async (e) => {
+    async (e: FormEvent<HTMLFormElement>) => {
       try {
         e.preventDefault();
         let res;
         if (type === "Login") {
           res = await login({ email, password });
           localStorage.setItem("token", res.data.token);
-          const getI = localStorage.getItem("token");
+          const getI = localStorage.getItem("token") || "";
           setTokenValue(getI);
         } else {
           res = await signUp({ email, password });
@@ -28,8 +36,9 @@ const Login = ({ setTokenValue }) => {
           setType("Login");
         }
       } catch (e) {
-        console.log("e", e);
-        alert(e?.response?.data?.message ?? "Something went wrong");
+        const error = e as Error;
+        console.log("e", error);
+        alert(error?.response?.data?.message ?? "Something went wrong");
       }
     },
     [email, password]

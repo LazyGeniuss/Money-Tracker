@@ -2,14 +2,18 @@ const jwt = require("jsonwebtoken");
 
 const secret = "LazyGenius";
 
-const getToken = (payload) => {
+interface IPayload {
+  email: string;
+  password: string;
+}
+
+export const getToken = (payload: IPayload) => {
   const token = jwt.sign(payload, secret);
   return token;
 };
 
-const getUserFromToken = (token) => {
+export const getUserFromToken = (token: string) => {
   const decode = jwt.verify(token, secret);
   return decode;
 };
 
-module.exports = { getToken, getUserFromToken };

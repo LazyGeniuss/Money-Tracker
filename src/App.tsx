@@ -1,12 +1,12 @@
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import "./App.css";
 import Home from "./components/Home";
 import Login from "./components/Login";
 
-function App() {
+const App: React.FC<{}> = () => {
   const [token, setToken] = useState(localStorage.getItem("token"));
 
-  const setTokenValue = useCallback((token) => {
+  const setTokenValue = useCallback((token: string) => {
     setToken(token);
   }, []);
 
@@ -27,6 +27,6 @@ function App() {
       )}
     </>
   );
-}
+};
 
 export default App;

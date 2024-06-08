@@ -1,12 +1,23 @@
-import { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import "../App.css";
 import { addTransaction, getTransaction } from "../axios/api";
 
-function Home({ logout }) {
+interface IProps {
+  logout: () => void;
+}
+
+export interface ITransaction {
+  price: number;
+  name: string;
+  description: string;
+  datetime: string;
+}
+
+function Home({ logout }: IProps) {
   const [name, setName] = useState("");
-  const [datetime, setDatetime] = useState();
+  const [datetime, setDatetime] = useState("");
   const [description, setDescription] = useState("");
-  const [transactions, setTransactions] = useState([]);
+  const [transactions, setTransactions] = useState<ITransaction[]>([]);
 
   useEffect(() => {
     getTransactions();
@@ -15,13 +26,13 @@ function Home({ logout }) {
   const getTransactions = async () => {
     try {
       const res = await getTransaction();
-      setTransactions(res.data);
+      setTransactions(res?.data || []);
     } catch (e) {
       console.log("Error", e);
     }
   };
 
-  const addNewTransaction = async (e) => {
+  const addNewTransaction = async (e: FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
       if (!name || !datetime || !description) {
@@ -31,7 +42,7 @@ function Home({ logout }) {
 
       const price = name.split(" ")[0];
       const res = await addTransaction({
-        price,
+        price: +price,
         name: name.substring(price.length + 1),
         description,
         datetime,
@@ -58,10 +69,11 @@ function Home({ logout }) {
     balance = balance + transaction.price;
   }
 
-  balance = balance.toFixed(2);
+  balance = +balance.toFixed(2);
 
-  const fraction = balance.split(".")[1];
-  balance = balance.split(".")[0];
+  const fraction = balance.toString().split(".")[1] || 0;
+  balance = +balance.toString().split(".")[0];
+
 
   return (
     <div>
@@ -89,9 +101,7 @@ function Home({ logout }) {
               value={description}
               onChange={(e) => setDescription(e.target.value)}></input>
           </div>
-          <button type="submit" href="/">
-            Add New Transaction
-          </button>
+          <button type="submit">Add New Transaction</button>
           <button onClick={logout}>LogOut</button>
         </form>
 
