@@ -1,8 +1,8 @@
 {
     "rewrites" : [
         {
-            "source": "/dist/api/(.*)",
-            "destination": "/dist/api"
+            "source": "/api/(.*)",
+            "destination": "/api"
         }
     ]
 }
